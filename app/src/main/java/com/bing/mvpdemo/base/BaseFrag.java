@@ -8,13 +8,23 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-public abstract class BaseFrag extends Fragment implements UiCallback{
+public abstract class BaseFrag extends Fragment implements UiCallback {
     protected View mRootView;
 
     private OnFragmentInteractionListener mListener;
 
+    protected UiDelegate mUiDelegate;
+
+    protected UiDelegate getUiDelegate() {
+        if (mUiDelegate == null) {
+            UiDelegate.create(getActivity());
+        }
+        return mUiDelegate;
+    }
+
     public BaseFrag() {
     }
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -23,7 +33,7 @@ public abstract class BaseFrag extends Fragment implements UiCallback{
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        if (mRootView == null){
+        if (mRootView == null) {
             mRootView = inflater.inflate(getLayoutId(), container, false);
             initData(savedInstanceState);
         } else {
@@ -57,6 +67,7 @@ public abstract class BaseFrag extends Fragment implements UiCallback{
         super.onDetach();
         mListener = null;
     }
+
     public interface OnFragmentInteractionListener {
         void onFragmentInteraction(Uri uri);
     }

@@ -10,6 +10,8 @@ import android.support.v7.app.AppCompatActivity;
 
 public abstract class BaseActivity extends AppCompatActivity implements UiCallback {
 
+    protected UiDelegate mUiDelegate;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -23,5 +25,12 @@ public abstract class BaseActivity extends AppCompatActivity implements UiCallba
     @Override
     public boolean useEventBus() {
         return false;
+    }
+
+    protected UiDelegate getUiDelegate() {
+        if (mUiDelegate == null) {
+            UiDelegate.create(this);
+        }
+        return mUiDelegate;
     }
 }
